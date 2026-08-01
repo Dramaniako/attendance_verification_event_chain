@@ -1,4 +1,4 @@
-# BOTChain Event Ticket - Soulbound Token (SBT) Smart Contract
+# AVEC -- Attendance Verification Event Chain
 
 Smart Contract ERC721 Soulbound Token (SBT) berbasis **Solidity v0.8.26** untuk sistem tiket acara **BOTChain Event Ticket**.
 
