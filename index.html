@@ -421,13 +421,29 @@
       checkWalletConnection();
     });
 
+    // Helper to get active Ethereum Web3 Provider (handles MetaMask, multi-provider arrays & delayed injection)
+    function getEthereumProvider() {
+      if (typeof window === 'undefined') return null;
+      if (window.ethereum) {
+        if (Array.isArray(window.ethereum.providers)) {
+          return window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum.providers[0];
+        }
+        return window.ethereum;
+      }
+      if (window.web3 && window.web3.currentProvider) {
+        return window.web3.currentProvider;
+      }
+      return null;
+    }
+
     // Initialize Read-Only Provider & Contract
     function initReadContract() {
       try {
-        if (window.ethereum) {
-          provider = new ethers.BrowserProvider(window.ethereum);
+        const ethProvider = getEthereumProvider();
+        if (ethProvider) {
+          provider = new ethers.BrowserProvider(ethProvider);
         } else {
-          // Fallback to default RPC if window.ethereum not available
+          // Fallback to default RPC if window.ethereum is not available
           provider = new ethers.JsonRpcProvider("https://rpc.sepolia.org");
         }
         readContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
@@ -481,15 +497,23 @@
 
     // Connect Wallet Function
     async function connectWallet() {
-      if (!window.ethereum) {
-        showToast("Web3 Provider / MetaMask is not installed in your browser!", "error");
+      let ethProvider = getEthereumProvider();
+
+      // Retry once after 300ms if provider injection was delayed
+      if (!ethProvider) {
+        await new Promise(r => setTimeout(r, 300));
+        ethProvider = getEthereumProvider();
+      }
+
+      if (!ethProvider) {
+        showToast("Web3 Wallet / MetaMask tidak terdeteksi pada tab browser ini! Pastikan ekstensi MetaMask aktif dan diizinkan pada http://localhost:3000.", "error");
         return;
       }
 
       try {
-        provider = new ethers.BrowserProvider(window.ethereum);
-        const accounts = await provider.send("eth_requestAccounts", []);
-        if (accounts.length === 0) return;
+        provider = new ethers.BrowserProvider(ethProvider);
+        const accounts = await ethProvider.request({ method: 'eth_requestAccounts' });
+        if (!accounts || accounts.length === 0) return;
 
         signer = await provider.getSigner();
         connectedAddress = accounts[0];
@@ -512,11 +536,12 @@
 
     // Check existing connection
     async function checkWalletConnection() {
-      if (window.ethereum) {
+      const ethProvider = getEthereumProvider();
+      if (ethProvider) {
         try {
-          provider = new ethers.BrowserProvider(window.ethereum);
-          const accounts = await provider.send("eth_accounts", []);
-          if (accounts.length > 0) {
+          provider = new ethers.BrowserProvider(ethProvider);
+          const accounts = await ethProvider.request({ method: 'eth_accounts' });
+          if (accounts && accounts.length > 0) {
             connectedAddress = accounts[0];
             signer = await provider.getSigner();
             writeContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
@@ -525,20 +550,22 @@
           }
 
           // Handle Account/Chain Changes
-          window.ethereum.on('accountsChanged', (accs) => {
-            if (accs.length > 0) {
-              connectedAddress = accs[0];
-              updateWalletUI();
-              checkIsOwner();
-            } else {
-              connectedAddress = null;
-              updateWalletUI();
-            }
-          });
+          if (ethProvider.on) {
+            ethProvider.on('accountsChanged', (accs) => {
+              if (accs.length > 0) {
+                connectedAddress = accs[0];
+                updateWalletUI();
+                checkIsOwner();
+              } else {
+                connectedAddress = null;
+                updateWalletUI();
+              }
+            });
 
-          window.ethereum.on('chainChanged', () => {
-            window.location.reload();
-          });
+            ethProvider.on('chainChanged', () => {
+              window.location.reload();
+            });
+          }
         } catch (e) {
           console.warn("Auto connect check failed:", e);
         }
