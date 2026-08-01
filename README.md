@@ -1,6 +1,6 @@
 # BOTChain Event Ticket - Soulbound Token (SBT) Smart Contract
 
-Smart Contract ERC721 Soulbound Token (SBT) berbasis **Solidity v0.8.20** untuk sistem tiket acara **BOTChain Event Ticket**.
+Smart Contract ERC721 Soulbound Token (SBT) berbasis **Solidity v0.8.26** untuk sistem tiket acara **BOTChain Event Ticket**.
 
 ---
 
@@ -29,7 +29,7 @@ Smart Contract ERC721 Soulbound Token (SBT) berbasis **Solidity v0.8.20** untuk 
 
 ```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
