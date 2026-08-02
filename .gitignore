@@ -13,6 +13,10 @@ coverage.json
 .solcover.js
 flattened/
 
+# Contract Deployment & Output Artifacts
+contract_address.txt
+ABI.json
+
 # Logs & Debugging
 logs/
 *.log
