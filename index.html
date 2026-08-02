@@ -195,7 +195,7 @@
         </button>
       </div>
       <div class="flex items-center space-x-4">
-        <div><span class="text-gray-500">Token:</span> <span id="tokenNameDisplay" class="text-gray-200 font-medium">BOTChain Event Ticket</span></div>
+        <div><span class="text-gray-500">Token Name:</span> <span id="tokenNameDisplay" class="text-gray-200 font-medium">BOTChain Event Ticket</span></div>
         <div><span class="text-gray-500">Symbol:</span> <span id="tokenSymbolDisplay" class="text-gray-200 font-medium">BOT-TKT</span></div>
         <div><span class="text-gray-500">Chain ID:</span> <span class="text-emerald-400 font-mono font-medium">677</span></div>
       </div>
@@ -239,7 +239,7 @@
         </svg>
         <div>
           <span class="font-bold text-blue-200 block mb-0.5">ℹ️ Security Notice:</span>
-          Fungsi <strong>Minting Ticket</strong> & <strong>Mark Attendance</strong> hanya dapat dieksekusi oleh Wallet Organizer (Contract Owner) menggunakan modifier <code class="bg-blue-950/60 px-1.5 py-0.5 rounded text-blue-300 font-mono text-xs border border-blue-500/30">onlyOwner</code>. Pengguna publik dapat menguji alur verifikasi pada Tab 2.
+          Minting Ticket & Mark Attendance functions can only be executed by the Organizer Wallet (Contract Owner) using the <code class="bg-blue-950/60 px-1.5 py-0.5 rounded text-blue-300 font-mono text-xs border border-blue-500/30">onlyOwner</code> modifier. Public users can test the verification workflow in Tab 2.
         </div>
       </div>
 
@@ -249,8 +249,8 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
         <div>
-          <span class="font-bold block">Status Akses Wallet saat ini:</span>
-          Wallet terhubung (<span id="connectedAddrNotice" class="font-mono underline"></span>) berstatus <strong>Public Viewer / Participant</strong>. Eksekusi minting & check-in akan dibatasi oleh Access Control kontrak.
+          <span class="font-bold block">Current Wallet Access Status:</span>
+          Connected wallet (<span id="connectedAddrNotice" class="font-mono underline"></span>) is currently acting as a <strong>Public Viewer / Participant</strong>. Minting & attendance execution are restricted by contract Access Control.
         </div>
       </div>
 
@@ -264,7 +264,7 @@
                 <span class="p-2 rounded-lg bg-brand-500/20 text-brand-400">🎟️</span>
                 Mint Soulbound Event Ticket
               </h2>
-              <p class="text-sm text-gray-400 mt-1">Terbitkan tiket SBT non-transferable langsung ke wallet peserta</p>
+              <p class="text-sm text-gray-400 mt-1">Issue non-transferable SBT tickets directly to participant wallets</p>
             </div>
           </div>
 
@@ -294,7 +294,7 @@
               <svg class="w-4 h-4 shrink-0 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              <span>Tiket ini bersifat <strong>Soulbound (Non-Transferable)</strong> dan terkunci permanen pada wallet penerima.</span>
+              <span>This ticket is <strong>Soulbound (Non-Transferable)</strong> and permanently locked to the recipient wallet.</span>
             </div>
 
             <button type="submit" id="mintSubmitBtn" class="w-full py-3.5 px-6 rounded-xl font-heading font-bold text-white bg-gradient-to-r from-brand-600 via-accent-purple to-accent-pink hover:opacity-95 shadow-lg shadow-brand-500/25 transition transform active:scale-[0.99] flex items-center justify-center gap-2">
@@ -316,16 +316,16 @@
               <span class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">✅</span>
               Mark Attendance (Check-in)
             </h2>
-            <p class="text-sm text-gray-400 mb-6">Ubah status tiket peserta menjadi <strong>Attended</strong> saat kehadiran di lokasi acara</p>
+            <p class="text-sm text-gray-400 mb-6">Update participant ticket status to <strong>Attended</strong> during event check-in</p>
 
             <form id="attendanceForm" onsubmit="handleMarkAttendance(event)" class="space-y-5">
               <div>
-                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Token ID Tiket</label>
+                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Ticket Token ID</label>
                 <input type="number" id="attendanceTokenId" min="1" required placeholder="e.g. 1" class="w-full glass-input px-4 py-3 rounded-xl text-sm font-mono text-white placeholder-gray-500 focus:outline-none transition">
               </div>
 
               <div class="p-4 rounded-xl bg-gray-900/60 border border-gray-800 space-y-2">
-                <div class="text-xs text-gray-400">Ringkasan Aksi:</div>
+                <div class="text-xs text-gray-400">Action Summary:</div>
                 <div class="text-xs text-gray-300 font-mono flex justify-between">
                   <span>Target Status:</span>
                   <span class="text-emerald-400 font-bold">isAttended = true</span>
@@ -345,7 +345,7 @@
           </div>
 
           <div class="mt-6 pt-4 border-t border-white/5 text-xs text-gray-500">
-            * Panggilan kontrak `markAttendance(tokenId)` membutuhkan otorisasi <code class="text-gray-400">onlyOwner</code>.
+            * Calling contract `markAttendance(tokenId)` requires <code class="text-gray-400">onlyOwner</code> authorization.
           </div>
         </div>
 
@@ -362,7 +362,7 @@
             </svg>
           </div>
           <h2 class="font-heading text-2xl font-bold text-white">Ticket Verification & Gatekeeper</h2>
-          <p class="text-sm text-gray-400 mt-1">Cek keabsahan tiket dan status kehadiran peserta berdasarkan Token ID atau Wallet Address</p>
+          <p class="text-sm text-gray-400 mt-1">Verify ticket authenticity and participant attendance status by Token ID or Wallet Address</p>
         </div>
 
         <!-- Search Mode Toggle -->
@@ -391,10 +391,10 @@
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl">
             <span class="flex items-center gap-1.5 text-amber-300 font-medium">
               <span>💡</span>
-              <span><strong>Tip Pengujian:</strong> Masukkan Token ID <code class="bg-amber-400/20 text-amber-200 px-1.5 py-0.5 rounded font-mono font-bold">1</code> untuk menguji verifikasi tiket real-time di BOT Chain Mainnet.</span>
+              <span><strong>Testing Tip:</strong> Enter Token ID <code class="bg-amber-400/20 text-amber-200 px-1.5 py-0.5 rounded font-mono font-bold">1</code> to test real-time ticket verification on BOT Chain Mainnet.</span>
             </span>
             <button type="button" onclick="fillTestTokenId(1)" class="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-bold border border-amber-500/30 transition shrink-0">
-              Gunakan Token ID #1
+              Use Token ID #1
             </button>
           </div>
         </form>
@@ -413,7 +413,7 @@
           <h2 class="font-heading text-xl font-bold text-white flex items-center gap-2">
             <span>🪪</span> My Soulbound Event Tickets
           </h2>
-          <p class="text-xs text-gray-400 mt-0.5">Tiket acara non-transferable yang tersimpan di wallet terhubung saat ini</p>
+          <p class="text-xs text-gray-400 mt-0.5">Non-transferable event passes stored in the currently connected wallet</p>
         </div>
         <button onclick="loadMyTickets()" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-semibold text-gray-200 transition flex items-center gap-2 border border-gray-700">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -579,7 +579,7 @@
       }
 
       if (!ethProvider) {
-        showToast("Web3 Wallet / MetaMask tidak terdeteksi pada tab browser ini! Pastikan ekstensi MetaMask aktif.", "error");
+        showToast("Web3 Wallet / MetaMask not detected in this browser tab! Please ensure the MetaMask extension is enabled.", "error");
         return;
       }
 
@@ -709,13 +709,13 @@
     async function handleMintTicket(e) {
       e.preventDefault();
       if (!connectedAddress || !writeContract) {
-        showToast("Silakan hubungkan wallet Anda terlebih dahulu!", "error");
+        showToast("Please connect your wallet first!", "error");
         return;
       }
 
       // Security Access Control Check (onlyOwner)
       if (!checkIsUserOwner()) {
-        showToast("Akses Ditolak: Hanya Wallet Organizer yang memiliki hak akses untuk menerbitkan tiket ini.", "error");
+        showToast("Access Denied: Only the Organizer Wallet has permission to mint tickets.", "error");
         return;
       }
 
@@ -724,17 +724,17 @@
       const participantName = document.getElementById('mintParticipantName').value.trim();
 
       if (!ethers.isAddress(to)) {
-        showToast("Format alamat wallet peserta tidak valid!", "error");
+        showToast("Invalid participant wallet address format!", "error");
         return;
       }
 
       setLoading('mint', true);
       try {
         const tx = await writeContract.mintTicket(to, eventName, participantName);
-        showToast("Transaksi Minting dikirim! Menunggu konfirmasi di BOT Chain...", "info");
+        showToast("Minting transaction submitted! Waiting for confirmation on BOT Chain...", "info");
 
         const receipt = await tx.wait();
-        showToast(`Berhasil! Tiket diterbitkan ke ${truncateAddress(to)} (Tx: ${truncateAddress(receipt.hash)})`, "success");
+        showToast(`Success! Ticket minted to ${truncateAddress(to)} (Tx: ${truncateAddress(receipt.hash)})`, "success");
 
         document.getElementById('mintForm').reset();
       } catch (err) {
@@ -750,29 +750,29 @@
     async function handleMarkAttendance(e) {
       e.preventDefault();
       if (!connectedAddress || !writeContract) {
-        showToast("Silakan hubungkan wallet Anda terlebih dahulu!", "error");
+        showToast("Please connect your wallet first!", "error");
         return;
       }
 
       // Security Access Control Check (onlyOwner)
       if (!checkIsUserOwner()) {
-        showToast("Akses Ditolak: Hanya Wallet Organizer yang memiliki hak akses untuk menandai kehadiran tiket.", "error");
+        showToast("Access Denied: Only the Organizer Wallet has permission to mark attendance.", "error");
         return;
       }
 
       const tokenId = document.getElementById('attendanceTokenId').value;
       if (!tokenId || tokenId < 1) {
-        showToast("Masukkan Token ID yang valid!", "error");
+        showToast("Please enter a valid Token ID!", "error");
         return;
       }
 
       setLoading('attendance', true);
       try {
         const tx = await writeContract.markAttendance(tokenId);
-        showToast("Transaksi Check-in dikirim! Menunggu konfirmasi...", "info");
+        showToast("Check-in transaction submitted! Waiting for confirmation...", "info");
 
         await tx.wait();
-        showToast(`Kehadiran berhasil ditandai untuk Token #${tokenId}!`, "success");
+        showToast(`Attendance marked successfully for Token #${tokenId}!`, "success");
         document.getElementById('attendanceForm').reset();
       } catch (err) {
         console.error("Attendance error:", err);
@@ -811,7 +811,7 @@
 
       const container = document.getElementById('verifyResultContainer');
       container.classList.remove('hidden');
-      container.innerHTML = `<div class="text-center py-8 text-gray-400"><svg class="animate-spin h-6 w-6 text-brand-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Memuat data tiket dari BOT Chain Mainnet...</div>`;
+      container.innerHTML = `<div class="text-center py-8 text-gray-400"><svg class="animate-spin h-6 w-6 text-brand-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Fetching ticket data from BOT Chain Mainnet...</div>`;
 
       try {
         if (currentVerifyMode === 'token') {
@@ -824,7 +824,7 @@
           container.innerHTML = renderSingleVerifyResult(tokenId, ticket, ticketOwner);
         } else {
           if (!ethers.isAddress(val)) {
-            container.innerHTML = `<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">Format alamat wallet tidak valid.</div>`;
+            container.innerHTML = `<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">Invalid wallet address format.</div>`;
             return;
           }
           const [tokenIds, tickets] = await readContract["verifyTicket(address)"](val);
@@ -877,10 +877,10 @@
     // Render Multiple Verification Results
     function renderMultipleVerifyResult(ownerAddr, tokenIds, tickets) {
       if (!tokenIds || tokenIds.length === 0) {
-        return `<div class="p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">Tidak ada tiket ditemukan untuk alamat ${truncateAddress(ownerAddr)}</div>`;
+        return `<div class="p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">No event tickets found for address ${truncateAddress(ownerAddr)}</div>`;
       }
 
-      let html = `<div class="mb-4 text-sm text-gray-300 font-medium">Ditemukan <strong>${tokenIds.length}</strong> tiket untuk alamat <span class="font-mono text-brand-400">${truncateAddress(ownerAddr)}</span>:</div><div class="space-y-4">`;
+      let html = `<div class="mb-4 text-sm text-gray-300 font-medium">Found <strong>${tokenIds.length}</strong> ticket(s) for address <span class="font-mono text-brand-400">${truncateAddress(ownerAddr)}</span>:</div><div class="space-y-4">`;
       for (let i = 0; i < tokenIds.length; i++) {
         const tokenId = tokenIds[i];
         const ticket = tickets[i];
@@ -900,8 +900,8 @@
             <div class="w-12 h-12 rounded-full bg-brand-500/10 text-brand-400 mx-auto flex items-center justify-center mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
-            <h3 class="text-base font-bold text-white mb-1">Wallet Belum Terhubung</h3>
-            <p class="text-xs text-gray-400 mb-4">Hubungkan wallet Web3 Anda untuk melihat tiket Soulbound yang Anda miliki.</p>
+            <h3 class="text-base font-bold text-white mb-1">Wallet Not Connected</h3>
+            <p class="text-xs text-gray-400 mb-4">Connect your Web3 wallet to view your owned Soulbound tickets.</p>
             <button onclick="connectWallet()" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-brand-600 hover:bg-brand-500 transition">Connect Wallet</button>
           </div>
         `;
@@ -911,7 +911,7 @@
       container.innerHTML = `
         <div class="col-span-full text-center py-12 text-gray-400">
           <svg class="animate-spin h-6 w-6 text-brand-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          Memuat tiket Soulbound dari BOT Chain Mainnet...
+          Fetching Soulbound tickets from BOT Chain Mainnet...
         </div>
       `;
 
@@ -953,7 +953,7 @@
           container.innerHTML = renderEmptyTickets();
         } else {
           console.error("Fetch tickets error:", err);
-          container.innerHTML = `<div class="col-span-full p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">Tidak ada tiket Soulbound ditemukan untuk alamat wallet ini.</div>`;
+          container.innerHTML = `<div class="col-span-full p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">No Soulbound tickets found for this wallet address.</div>`;
         }
       }
     }
@@ -964,26 +964,26 @@
           <div class="w-12 h-12 rounded-full bg-gray-800 text-gray-400 mx-auto flex items-center justify-center mb-3 text-xl">
             🎟️
           </div>
-          <h3 class="text-base font-bold text-white mb-1">Tiket Tidak Ditemukan</h3>
-          <p class="text-xs text-gray-400">Wallet Anda saat ini belum memiliki tiket BOTChain Soulbound Token.</p>
+          <h3 class="text-base font-bold text-white mb-1">No Tickets Found</h3>
+          <p class="text-xs text-gray-400">Your connected wallet currently does not hold any BOTChain Soulbound Tickets.</p>
         </div>
       `;
     }
 
     // Parse Custom Contract Errors
     function parseCustomError(err) {
-      if (!err) return "Terjadi kesalahan yang tidak terduga.";
+      if (!err) return "An unexpected error occurred.";
       const errStr = JSON.stringify(err) + (err.message || "");
 
-      if (errStr.includes("OwnableUnauthorizedAccount")) return "Akses Ditolak: Hanya Wallet Organizer yang memiliki hak akses untuk menerbitkan tiket ini.";
-      if (errStr.includes("SoulboundTokenNonTransferable")) return "Aksi Gagal: Tiket SBT bersifat non-transferable antar wallet.";
-      if (errStr.includes("AlreadyAttended")) return "Aksi Gagal: Tiket ini sudah ditandai sebagai Hadir (Attended)!";
-      if (errStr.includes("TicketDoesNotExist") || errStr.includes("ERC721NonexistentToken")) return "Aksi Gagal: Token ID tidak ditemukan di blockchain.";
-      if (errStr.includes("NoTicketsFound")) return "Tidak ada tiket ditemukan untuk alamat peserta ini.";
-      if (errStr.includes("InvalidRecipientAddress")) return "Aksi Gagal: Alamat wallet penerima tidak valid.";
+      if (errStr.includes("OwnableUnauthorizedAccount")) return "Access Denied: Only the Organizer Wallet has permission to perform this action.";
+      if (errStr.includes("SoulboundTokenNonTransferable")) return "Action Failed: SBT tickets are non-transferable between wallets.";
+      if (errStr.includes("AlreadyAttended")) return "Action Failed: This ticket is already marked as Attended!";
+      if (errStr.includes("TicketDoesNotExist") || errStr.includes("ERC721NonexistentToken")) return "Action Failed: Token ID does not exist on-chain.";
+      if (errStr.includes("NoTicketsFound")) return "No tickets found for this participant address.";
+      if (errStr.includes("InvalidRecipientAddress")) return "Action Failed: Invalid recipient wallet address.";
       if (err.reason) return err.reason;
       if (err.message) return err.message.slice(0, 100);
-      return "Transaksi ditolak oleh logika smart contract.";
+      return "Transaction reverted by smart contract logic.";
     }
 
     // Loading State Helper
@@ -1043,7 +1043,7 @@
 
     function copyContractAddress() {
       navigator.clipboard.writeText(CONTRACT_ADDRESS);
-      showToast("Alamat Kontrak berhasil disalin ke clipboard!", "success");
+      showToast("Contract Address copied to clipboard!", "success");
     }
   </script>
 </body>
