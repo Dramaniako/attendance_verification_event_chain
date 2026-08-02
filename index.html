@@ -803,6 +803,19 @@
       }
     }
 
+    // Helper for Promise timeout
+    function promiseWithTimeout(promise, ms = 10000, timeoutErrorMsg = "Request timed out while fetching ticket data from BOT Chain Mainnet.") {
+      let timeoutId;
+      const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(new Error(timeoutErrorMsg));
+        }, ms);
+      });
+      return Promise.race([promise, timeoutPromise]).finally(() => {
+        clearTimeout(timeoutId);
+      });
+    }
+
     // Handle Verify Search
     async function handleVerifySearch(e) {
       e.preventDefault();
@@ -816,10 +829,14 @@
       try {
         if (currentVerifyMode === 'token') {
           const tokenId = parseInt(val);
-          const [ticket, ticketOwner] = await Promise.all([
-            readContract["verifyTicket(uint256)"](tokenId),
-            readContract.ownerOf(tokenId).catch(() => "Unknown Owner")
-          ]);
+          const [ticket, ticketOwner] = await promiseWithTimeout(
+            Promise.all([
+              readContract["verifyTicket(uint256)"](tokenId),
+              readContract.ownerOf(tokenId).catch(() => "Unknown Owner")
+            ]),
+            10000,
+            "Request timed out while fetching ticket data from BOT Chain Mainnet. Please check your network connection or try again."
+          );
 
           container.innerHTML = renderSingleVerifyResult(tokenId, ticket, ticketOwner);
         } else {
@@ -827,7 +844,11 @@
             container.innerHTML = `<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">Invalid wallet address format.</div>`;
             return;
           }
-          const [tokenIds, tickets] = await readContract["verifyTicket(address)"](val);
+          const [tokenIds, tickets] = await promiseWithTimeout(
+            readContract["verifyTicket(address)"](val),
+            10000,
+            "Request timed out while fetching ticket data from BOT Chain Mainnet. Please check your network connection or try again."
+          );
           container.innerHTML = renderMultipleVerifyResult(val, tokenIds, tickets);
         }
       } catch (err) {
@@ -916,7 +937,11 @@
       `;
 
       try {
-        const [tokenIds, tickets] = await readContract["verifyTicket(address)"](connectedAddress);
+        const [tokenIds, tickets] = await promiseWithTimeout(
+          readContract["verifyTicket(address)"](connectedAddress),
+          10000,
+          "Request timed out while fetching your tickets from BOT Chain Mainnet. Please check your connection or try again."
+        );
 
         if (!tokenIds || tokenIds.length === 0) {
           container.innerHTML = renderEmptyTickets();
@@ -953,7 +978,8 @@
           container.innerHTML = renderEmptyTickets();
         } else {
           console.error("Fetch tickets error:", err);
-          container.innerHTML = `<div class="col-span-full p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">No Soulbound tickets found for this wallet address.</div>`;
+          const msg = parseCustomError(err);
+          container.innerHTML = `<div class="col-span-full p-6 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm text-center">⚠️ ${escapeHtml(msg)}</div>`;
         }
       }
     }
@@ -975,6 +1001,7 @@
       if (!err) return "An unexpected error occurred.";
       const errStr = JSON.stringify(err) + (err.message || "");
 
+      if (err.message && err.message.includes("timed out")) return err.message;
       if (errStr.includes("OwnableUnauthorizedAccount")) return "Access Denied: Only the Organizer Wallet has permission to perform this action.";
       if (errStr.includes("SoulboundTokenNonTransferable")) return "Action Failed: SBT tickets are non-transferable between wallets.";
       if (errStr.includes("AlreadyAttended")) return "Action Failed: This ticket is already marked as Attended!";
